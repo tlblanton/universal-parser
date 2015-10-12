@@ -138,6 +138,7 @@ MarkedVocabulary myVocab;
 //----------------------------------------| MAIN |------------------------------------------//
 int main()
 {
+	cout << "This is a change\n";
     std::vector<string>* globsymbolVect;
     std::vector<string>* globnonTerminalsVect;
     std::vector<string>* globterminalsVect;
