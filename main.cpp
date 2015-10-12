@@ -123,7 +123,7 @@ bool same(TermSet&, TermSet&);
 void fillFollowSet();
 void tableGenerator();
 string findnumber(std::vector<string>, string, string);
-int T(string A, string t);
+int T(string A, string t); //implement this for parser
 
 
 
