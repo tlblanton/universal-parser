@@ -439,6 +439,18 @@ bool existsIn(string thing, TermSet TS)
     return false;
 }
 
+bool existsInVect(string thing, std::vector<string> vect)
+{
+    for(int i = 0; i < vect.size(); ++i)
+    {
+        if(vect[i] == thing)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 int findIndex(std::vector<string> vect, string findThis)
 {

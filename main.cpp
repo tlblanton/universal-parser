@@ -15,6 +15,7 @@
 #include <iomanip>
 #include <assert.h>
 #include <map>
+#include <stack>
 
 using namespace std;
 
@@ -26,7 +27,7 @@ std::vector<TermSet> firstSet; //first set will run in parallel with myvocab.Voc
 std::vector<TermSet> followSet; //follow set will run parallel with myvocab.Vocabulary as well.
 MarkedVocabulary myVocab;
 std::vector<std::vector <string> > tableVect; ;//this runs parallel to the production numbers and therefore also LHS
-
+std::stack<string> myStack;
 
 //----------------------------------------| MAIN |------------------------------------------//
 int main()
