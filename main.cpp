@@ -17,6 +17,8 @@
 
 using namespace std;
 
+
+
 //-------| CLASSES |--------//
 class MarkedVocabulary
 {
