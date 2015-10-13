@@ -34,7 +34,6 @@ void MarkLambda(MarkedVocabulary& derivesLambda, Grammar& g)
     bool RHSDerivesLambda = false;
     while(changes)
     {
-        changes = false;
         for(int p = 0; p < g.RHS.size(); ++p) //same number of right-hand sides as there are productions
         {
             RHSDerivesLambda = true;
