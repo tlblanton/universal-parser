@@ -119,7 +119,7 @@ bool same(TermSet&, TermSet&);
 void fillFollowSet();
 void tableGenerator();
 string findnumber(std::vector<string>, string, string);
-int T(string A, string t); //implement this for parser
+int T(string A, string t); //A is a nonterminal and t is a look-ahead token
 
 
 
