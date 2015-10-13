@@ -25,6 +25,7 @@ std::vector<TermSet> firstSet; //first set will run in parallel with myvocab.Voc
 //and lambda
 std::vector<TermSet> followSet; //follow set will run parallel with myvocab.Vocabulary as well.
 MarkedVocabulary myVocab;
+std::vector<std::vector <string> > tableVect; ;//this runs parallel to the production numbers and therefore also LHS
 
 
 //----------------------------------------| MAIN |------------------------------------------//
@@ -62,13 +63,9 @@ int main()
     
     MarkLambda(myVocab, g);
     
+    firstSet.resize(myVocab.vocabulary.size()); 	//giving first and follow sets the correct size
+    followSet.resize(myVocab.vocabulary.size());
     
-    for(int i = 0; i < myVocab.vocabulary.size(); ++i)
-    {
-        TermSet temp;
-        firstSet.push_back(temp);
-        followSet.push_back(temp);
-    }
     
     fillFirstSet();
     fillFollowSet();
@@ -118,7 +115,10 @@ int main()
     
     tableGenerator();
     
+    cout << "------------------------------------------------------------------------------------------------" << endl;
     
+    cout << T("<statement tail>", "Id") << endl;
+
     return 0;
 }
 

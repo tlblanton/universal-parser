@@ -219,16 +219,17 @@ void tableGenerator() //need to fill tableVect in here
 
 	for(int d = 0; d < tableVect.size(); ++d)
 	{
-		tableVect[d].resize(g.terminalsVect.size()); //so every vector has a space for every terminal and a potential number there.
+		tableVect[d].resize(g.terminalsVect.size()); //so every vector has a space for every terminal (to put a potential number there).
 	}
 
 
-    printf("%18s", "");
+    /*printf("%18s", "");
     for(int i = 0; i < g.terminalsVect.size(); ++i)
     {
         cout << g.terminalsVect[i] << "   ";
     }
     cout << endl;
+*/
 
     for(int i = 0; i < g.nonTerminalsVect.size(); ++i)
     {
@@ -310,7 +311,7 @@ void tableGenerator() //need to fill tableVect in here
 
         }
 
-        printf("%17s %2s %6s %5s%4s %4s %4s %6s %6s %3s %3s %7s %8s %3s %3s\n", g.nonTerminalsVect[i].c_str(), numberVect[0].c_str(), numberVect[1].c_str(), numberVect[2].c_str(), numberVect[3].c_str(), numberVect[4].c_str(), numberVect[5].c_str(), numberVect[6].c_str(), numberVect[7].c_str(), numberVect[8].c_str(), numberVect[9].c_str(), numberVect[10].c_str(), numberVect[11].c_str(), numberVect[12].c_str(), numberVect[13].c_str());
+        //printf("%17s %2s %6s %5s%4s %4s %4s %6s %6s %3s %3s %7s %8s %3s %3s\n", g.nonTerminalsVect[i].c_str(), numberVect[0].c_str(), numberVect[1].c_str(), numberVect[2].c_str(), numberVect[3].c_str(), numberVect[4].c_str(), numberVect[5].c_str(), numberVect[6].c_str(), numberVect[7].c_str(), numberVect[8].c_str(), numberVect[9].c_str(), numberVect[10].c_str(), numberVect[11].c_str(), numberVect[12].c_str(), numberVect[13].c_str());
     }
 }
 
@@ -597,7 +598,20 @@ string findnumber(std::vector<string> vect, string NT, string FSi) //takes nonte
 }
 
 
-
+int T(string A, string t)
+{
+	int index = findIndex(g.nonTerminalsVect, A);
+	int tIndex = findIndex(g.terminalsVect, t);
+	if(tableVect[index][tIndex] == "")
+	{
+		return -1;
+	}
+	else
+	{
+		int returnVal = std::stoi(tableVect[index][tIndex], nullptr, 10);
+		return returnVal;
+	}
+}
 
 
 
