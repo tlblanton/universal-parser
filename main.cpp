@@ -123,9 +123,12 @@ int main()
     
 
     tableGenerator();
-    //LLDriver();
+    if(LLDriver() == -1)
+    {
+        cerr << "Program Terminated." << endl;
+        return EXIT_FAILURE;
+    }
 
-    cout << "here\n";
 
     return 0;
 }

@@ -31,7 +31,13 @@ string scanner(int optional)//returns token every time it runs. when non-zero ar
 
     if(!inFile.is_open())
     {
-        inFile.open("testProg.txt"); //opens file if it is not open already. file must be reachable by program (in same directory ideally)
+        string file = "testProg.txt";
+        inFile.open(file); //opens file if it is not open already. file must be reachable by program (in same directory ideally)
+        if(!inFile)
+        {
+            cerr << "Cannot open " << file << endl;
+            return "-1";
+        }
     }
 
     clearBuffer(tokenBuffer);

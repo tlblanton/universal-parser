@@ -15,11 +15,14 @@ extern MarkedVocabulary myVocab;
 extern std::vector< std::vector<string> > tableVect;
 
 
-void LLDriver()
+int LLDriver()
 {
-	cout << "in LLD\n";
 	string currentThing;
-	//currentThing = scanner(); //need to implemet scanner to read program. use other one?
+	currentThing = scanner(); //need to implement scanner to read program. use other one?
+	if(currentThing == "-1")
+	{
+		return -1;
+	}
 	cout << "currentThing is " << currentThing << endl;
 	myStack.push(g.startSymbol);
 	while(myStack.size() != 0)
@@ -40,6 +43,7 @@ void LLDriver()
 				else
 				{
 					cout << "syntax error on " << currentThing << endl;
+					currentThing = scanner(); //moving to next thing to infinite loop is not obtained while repeatedly getting syntax error
 					//need to advance currentThing I think. Need to do something.
 				}
 		}
@@ -49,7 +53,7 @@ void LLDriver()
 			if(myStack.top() == currentThing)
 			{
 				myStack.pop();
-				//currentThing = scanner(); //getting next token form user program
+				currentThing = scanner(); //getting next token form user program
 			}
 			else
 			{
