@@ -50,6 +50,7 @@ int main()
     if(status == -1)
     {
         cerr << "File specified could not be opened. Program Terminated" << endl;
+        return -1;
     }
     g.fill(*globsymbolVect, *globnonTerminalsVect, *globterminalsVect, *globLHS, *globRHS);
     myVocab.init(g.terminalsVect, g.nonTerminalsVect);
