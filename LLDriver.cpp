@@ -23,13 +23,12 @@ int LLDriver()
 	{
 		return -1;
 	}
-	cout << "currentThing is " << currentThing << endl;
 	myStack.push(g.startSymbol);
 	while(myStack.size() != 0)
 	{
 		if(existsInVect(myStack.top(), g.nonTerminalsVect))
 		{
-				if(T(myStack.top(), currentThing) != -1)
+				if(T(myStack.top(), currentThing) != -1) //T(X, a) doesn't know what to do with the tokens that currentThing is getting from scanner()
 				{
 					int index = findIndex(g.LHS, myStack.top());
 					std::vector<string> NTProductions;
@@ -45,6 +44,7 @@ int LLDriver()
 					cout << "syntax error on " << currentThing << endl;
 					currentThing = scanner(); //moving to next thing to infinite loop is not obtained while repeatedly getting syntax error
 					//need to advance currentThing I think. Need to do something.
+					return -1;
 				}
 		}
 		else //means X is in terminals
@@ -62,4 +62,5 @@ int LLDriver()
 			}
 		}
 	}
+	return 0;
 }

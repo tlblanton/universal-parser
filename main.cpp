@@ -33,8 +33,6 @@ std::stack<string> myStack;
 //----------------------------------------| MAIN |------------------------------------------//
 int main()
 {
-    cout << "here\n";
-
     std::vector<string>* globsymbolVect;
     std::vector<string>* globnonTerminalsVect;
     std::vector<string>* globterminalsVect;
@@ -77,7 +75,7 @@ int main()
 
     fillFollowSet();
 
-
+    /*
     for(int i = 0; i < g.nonTerminalsVect.size(); ++i)
     {
         //cout << "first set of " << myVocab.vocabulary[i] << setw(30) << " is {  ";
@@ -96,7 +94,7 @@ int main()
         
         cout  <<endl;
     }
-
+*/
     /*
     cout << "---------------------------------------------------" << endl;
     for(int i = 0; i < g.nonTerminalsVect.size(); ++i)
