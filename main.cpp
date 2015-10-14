@@ -8,6 +8,7 @@
 
 #include "grammarAnalyzer.h"
 #include "sets.h"
+#include "LLDriver.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -32,6 +33,8 @@ std::stack<string> myStack;
 //----------------------------------------| MAIN |------------------------------------------//
 int main()
 {
+    cout << "here\n";
+
     std::vector<string>* globsymbolVect;
     std::vector<string>* globnonTerminalsVect;
     std::vector<string>* globterminalsVect;
@@ -61,15 +64,16 @@ int main()
     delete globnonTerminalsVect;
     delete globLHS;
     delete globRHS;
-    
+    /*
     MarkLambda(myVocab, g);
     
     firstSet.resize(myVocab.vocabulary.size()); 	//giving first and follow sets the correct size
     followSet.resize(myVocab.vocabulary.size());
     
-    
     fillFirstSet();
+
     fillFollowSet();
+    */
     /*
     for(int i = 0; i < g.nonTerminalsVect.size(); ++i)
     {
@@ -114,8 +118,11 @@ int main()
 
     //cout << "------------------------------------------------------------------------------------------------" << endl;
     
-    tableGenerator();
 
+    //tableGenerator();
+    //LLDriver();
+
+    cout << "here\n";
 
     return 0;
 }

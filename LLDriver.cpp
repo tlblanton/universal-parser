@@ -2,6 +2,7 @@
 #include "LLDriver.h"
 #include "grammarAnalyzer.h"
 #include "sets.h"
+#include "scanner.h"
 #include <string>
 #include <stack>
 using namespace std;
@@ -16,8 +17,10 @@ extern std::vector< std::vector<string> > tableVect;
 
 void LLDriver()
 {
+	cout << "in LLD\n";
 	string currentThing;
-	currentThing = "TEST";//scanner(); //need to implemet scanner to read program. use other one?
+	//currentThing = scanner(); //need to implemet scanner to read program. use other one?
+	cout << "currentThing is " << currentThing << endl;
 	myStack.push(g.startSymbol);
 	while(myStack.size() != 0)
 	{
@@ -46,7 +49,7 @@ void LLDriver()
 			if(myStack.top() == currentThing)
 			{
 				myStack.pop();
-				currentThing = "NEXT";//scanner(); //getting next token form user program
+				//currentThing = scanner(); //getting next token form user program
 			}
 			else
 			{

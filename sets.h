@@ -9,7 +9,9 @@
 #ifndef SETS_H_
 #define SETS_H_
 
-
+#include <vector>
+#include <string>
+using namespace std;
 //-------| CLASSES |--------//
 class MarkedVocabulary
 {

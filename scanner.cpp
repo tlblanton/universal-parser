@@ -9,11 +9,6 @@
 using namespace std;
 
 
-std::vector<string> symbolTable;
-int maxTemp;
-int maxSymbol; //I am using symbolTable.size() to keep track of how many symbols are in the table currently and maxsymbol to say how many
-//symbols are allowed
-int lastSymbol = 0;
 string tokenBuffer;
 
 /*********************
