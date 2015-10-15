@@ -19,19 +19,25 @@ string scanner(int optional)//returns token every time it runs. when non-zero ar
 {
 
     static ifstream inFile; //static so it retains its open state throughout function calls until EofSym is returned.
+    string file = "tableProg.txt";
 
     long long pos = 0; //long long because tellg() returns long long
     bool goBack = false;
-    if(optional != 0)
+    if(optional == 1) //pass 1 to just see next token
     {
         goBack = true;
         pos = inFile.tellg();
+    }
+    else if(optional == 2) //pass 2 to reset
+    {
+        inFile.close();
+        inFile.open(file);
+        return "__RESET__";
     }
 
 
     if(!inFile.is_open())
     {
-        string file = "testProg.txt";
         inFile.open(file); //opens file if it is not open already. file must be reachable by program (in same directory ideally)
         if(!inFile)
         {
@@ -48,7 +54,7 @@ string scanner(int optional)//returns token every time it runs. when non-zero ar
         {
             inFile.seekg(pos);
         }
-        return "EofSym";
+        return "end";
     }
     else
     {
@@ -73,7 +79,16 @@ string scanner(int optional)//returns token every time it runs. when non-zero ar
                     {
                         inFile.seekg(pos);
                     }
-                    return checkReserved(tokenBuffer); //function that takes identifiers and converts them to tokens
+
+                    string temp = checkReserved(tokenBuffer); //function that takes identifiers and converts them to tokens
+                    if(temp == "Id")
+                    {
+                        return tokenBuffer;
+                    }
+                    else
+                    {
+                        return temp;
+                    }
                 }
             }
             else if(currentChar >= '0' && currentChar <= '9')
@@ -88,7 +103,7 @@ string scanner(int optional)//returns token every time it runs. when non-zero ar
                 {
                     inFile.seekg(pos);
                 }
-                return "IntLiteral";
+                return tokenBuffer;
 
             }
             else if(currentChar == '(')
@@ -97,7 +112,7 @@ string scanner(int optional)//returns token every time it runs. when non-zero ar
                 {
                     inFile.seekg(pos);
                 }
-                return "LParen";
+                return "(";
             }
             else if(currentChar == ')')
             {
@@ -105,7 +120,7 @@ string scanner(int optional)//returns token every time it runs. when non-zero ar
                 {
                     inFile.seekg(pos);
                 }
-                return "RParen";
+                return ")";
             }
             else if(currentChar == ';')
             {
@@ -113,7 +128,7 @@ string scanner(int optional)//returns token every time it runs. when non-zero ar
                 {
                     inFile.seekg(pos);
                 }
-                return "SemiColon";
+                return ";";
             }
             else if(currentChar == ',')
             {
@@ -121,7 +136,7 @@ string scanner(int optional)//returns token every time it runs. when non-zero ar
                 {
                     inFile.seekg(pos);
                 }
-                return "Comma";
+                return ",";
             }
             else if(currentChar == '+')
             {
@@ -129,7 +144,7 @@ string scanner(int optional)//returns token every time it runs. when non-zero ar
                 {
                     inFile.seekg(pos);
                 }
-                return "PlusOp";
+                return "+";
             }
             else if(currentChar == ':')
             {
@@ -140,7 +155,7 @@ string scanner(int optional)//returns token every time it runs. when non-zero ar
                     {
                         inFile.seekg(pos);
                     }
-                    return "AssignOp";
+                    return ":=";
                 }
                 else
                 {
@@ -167,7 +182,7 @@ string scanner(int optional)//returns token every time it runs. when non-zero ar
                     {
                         inFile.seekg(pos);
                     }
-                    return "MinusOp";
+                    return "-";
                 }
             }
             else
@@ -175,6 +190,10 @@ string scanner(int optional)//returns token every time it runs. when non-zero ar
                 if(goBack)
                 {
                     inFile.seekg(pos);
+                }
+                if(currentChar == '$')
+                {
+                    return "$";
                 }
                 return "LexicalError(CurrentChar)"; //returning LexicalError here, as the parser will handle throwing the actual error
             }
@@ -184,7 +203,7 @@ string scanner(int optional)//returns token every time it runs. when non-zero ar
         {
             inFile.seekg(pos);
         }
-        return "EofSym";
+        return "end";
     }
 
 }
@@ -210,19 +229,19 @@ string checkReserved(string id)
 
     if(id == "BEGIN" || id == "begin")
     {
-        return "BeginSym";
+        return "begin";
     }
     else if(id == "END" || id == "end")
     {
-        return "EndSym";
+        return "end";
     }
     else if(id == "READ" || id == "read")
     {
-        return "ReadSym";
+        return "read";
     }
     else if(id == "WRITE" || id == "write")
     {
-        return "WriteSym";
+        return "write";
     }
     else
     {
