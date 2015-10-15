@@ -611,10 +611,10 @@ string findnumber(std::vector<string> vect, string NT, string FSi) //takes nonte
 }
 
 
-int T(string A, string t)
+int T(string X, string a)
 {
-	int index = findIndex(g.nonTerminalsVect, A);
-	int tIndex = findIndex(g.terminalsVect, t);
+	int index = findIndex(g.nonTerminalsVect, X);
+	int tIndex = findIndex(g.terminalsVect, a);
 	if(tableVect[index][tIndex] == "")
 	{
 		return -1;

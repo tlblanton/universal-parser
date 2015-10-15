@@ -9,6 +9,7 @@
 #include "grammarAnalyzer.h"
 #include "sets.h"
 #include "LLDriver.h"
+#include "scannerDriver.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -64,7 +65,15 @@ int main()
     delete globLHS;
     delete globRHS;
 
+    /*
 
+    for(int i = 0; i < g.terminalsVect.size(); ++i)
+    {
+        cout << g.terminalsVect[i] << endl;
+    }
+*/
+
+    //so out terminals are the same as what scanner gives us. But they are not the same as what T will match.
 
    MarkLambda(myVocab, g);
 
@@ -117,15 +126,11 @@ int main()
     }
     */
 
-    cout << "------------------------------------------------------------------------------------------------" << endl;
+    //cout << "------------------------------------------------------------------------------------------------" << endl;
     
 
     tableGenerator();
-    if(LLDriver() == -1)
-    {
-        cerr << "Program Terminated." << endl;
-        return EXIT_FAILURE;
-    }
+    assert(LLDriver() != -1); //this is calling LLDriver() and is currently ending on a syntax error
 
 
     return 0;
