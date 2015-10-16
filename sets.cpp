@@ -356,9 +356,6 @@ std::vector<string> getProductions(string rhs)
             rhsBrokenUp.push_back(temp);
             temp = ")";
         }
-
-
-
         rhsBrokenUp.push_back(temp);
     }
 
@@ -446,6 +443,10 @@ bool existsInVect(string thing, std::vector<string> vect)
     {
         if(vect[i] == thing)
         {
+            if(thing == ";")
+            {
+                cout << "; is apparently in spot " << i << " in nonterminalsVect" << endl;
+            }
             return true;
         }
     }

@@ -6,11 +6,11 @@
 //  Copyright © 2015 tlblanton. All rights reserved.
 //
 
+#include <iostream>
 #include "grammarAnalyzer.h"
 #include "sets.h"
 #include "LLDriver.h"
 #include "scannerDriver.h"
-#include <iostream>
 #include <vector>
 #include <string>
 #include <sstream>
@@ -28,7 +28,7 @@ std::vector<TermSet> firstSet; //first set will run in parallel with myvocab.Voc
 //and lambda
 std::vector<TermSet> followSet; //follow set will run parallel with myvocab.Vocabulary as well.
 MarkedVocabulary myVocab;
-std::vector<std::vector <string> > tableVect; ;//this runs parallel to the production numbers and therefore also LHS
+std::vector<std::vector <string> > tableVect; //this runs parallel to the production numbers and therefore also LHS
 std::stack<string> myStack;
 
 //----------------------------------------| MAIN |------------------------------------------//
@@ -55,9 +55,11 @@ int main()
     myVocab.init(g.terminalsVect, g.nonTerminalsVect);
     myVocab.vocabulary.push_back("λ");
     
-    
-    
-    
+    for(int i = 0;i < g.nonTerminalsVect.size(); ++i)
+    {
+        cout << i << "  " <<g.nonTerminalsVect[i] <<endl;
+    }
+
     
     delete globsymbolVect;
     delete globterminalsVect;
@@ -130,6 +132,7 @@ int main()
     
 
     tableGenerator();
+
     assert(LLDriver() != -1); //this is calling LLDriver() and is currently ending on a syntax error
 
 

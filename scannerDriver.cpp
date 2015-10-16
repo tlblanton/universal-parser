@@ -23,6 +23,7 @@ void scannerDriver(int &tokenCode, string &tokenText)
         {
             tokenText = "EofSym";
             end = true;
+            return;
         }
         string actionResult = action(state, currentChar());
         if(actionResult == "Error")

@@ -14,4 +14,5 @@ void display(std::vector<string>&);
 void getRemaining(std::vector<string>&);
 void displayStack(std::stack<string>);
 void displayLine(int, std::vector<string>, std::stack<string>);
+std::vector<string> getRealProductions(string rhs);
 #endif

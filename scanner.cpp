@@ -226,12 +226,11 @@ void bufferChar(char currentChar, string& singleTokenBuffer)
 
 string checkReserved(string id)
 {
-
     if(id == "BEGIN" || id == "begin")
     {
         return "begin";
     }
-    else if(id == "END" || id == "end")
+    else if(id == "END" || id == "end" || id == "End")
     {
         return "end";
     }

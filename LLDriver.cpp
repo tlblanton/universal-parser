@@ -5,6 +5,7 @@
 #include "scanner.h"
 #include "scannerDriver.h"
 #include <iomanip>
+#include <sstream>
 #include <locale>
 #include <string>
 #include <stack>
@@ -22,6 +23,9 @@ extern string tokenText;
 
 int LLDriver()
 {
+	string currentThing;
+
+	int myState = 0;
 
 	cout << setw(30) << left <<"PARSE ACTION" << setw(80) << "REMAINING INPUT" << "PARSE STACK" << endl;
 	std::vector<string> remainingInput;
@@ -32,6 +36,110 @@ int LLDriver()
 
 
 	cout << endl;
+
+	myStack.push(g.startSymbol);
+
+	scannerDriver(tokenCode, tokenText);
+	currentThing = tokenText;
+
+	while(myStack.size() != 0)
+	{
+		if(myStack.top() == "(<expression>)")
+		{
+			myStack.pop();
+			myStack.push("<expression>");
+		}
+		cout << "trying to find " << myStack.top() << " in  nonTerminalsVect" << endl;
+		if (existsIn(myStack.top(), g.nonTerminalsVect))
+		{
+			cout << "currentThing is " << currentThing << endl;
+			if (T(myStack.top(), currentThing) != -1)
+			{
+
+				myState = T(myStack.top(), currentThing);
+				cout << "\n\npredict # is " << myState << endl << endl;
+
+				//int index = findIndex(g.LHS, myStack.top());
+				int index = myState - 1;
+				cout << "index is " << index << endl;
+
+
+
+
+				myStack.pop();
+				std::vector<string> RHSBroken;
+				RHSBroken = getRealProductions(g.RHS[index]);
+				cout <<"RHS[index] is " << g.RHS[index] << endl;
+				for(int i = (int)RHSBroken.size()-1; i >= 0; --i)
+				{
+
+					cout << "RHSBroken[i] is " << RHSBroken[i] << endl;
+					myStack.push(RHSBroken[i]);
+				}
+
+			}
+			else
+			{
+				cout << "syntax error on nonTerminal \n Trying to find " << currentThing << " in " << myStack.top() << endl;
+
+
+				scannerDriver(tokenCode, tokenText);
+				currentThing = tokenText;
+			}
+		}
+		else		//meaning X is in terminals
+		{
+			if(myStack.top() == "(<expression>)")
+			{
+				if(myState == 18)
+				{
+					myStack.pop();
+					myStack.push("Id");
+				}
+				else if(myState == 19)
+				{
+					myStack.pop();
+					myStack.push("IntLiteral");
+				}
+			}
+			else if(myStack.top() == "<primary>")
+			{
+				if(myState == 18)
+				{
+					myStack.pop();
+					myStack.push("Id");
+				}
+				else if(myState == 19)
+				{
+					myStack.pop();
+					myStack.push("IntLiteral");
+				}
+			}
+
+
+			cout << "in terminals: mystacktop is '" << myStack.top() << "' and current thing is '" << currentThing << "'" << endl;
+			if(myStack.top() == currentThing || (currentThing == ";" && myStack.top() == "λ"))
+			{
+				myStack.pop();
+				cout << "HERE\n";
+				scannerDriver(tokenCode, tokenText);
+				currentThing = tokenText;
+				cout << "currentthing is " << currentThing << endl;
+				cin.get();
+
+			}
+			else
+			{
+				//cout << "mystack.top() is " << myStack.top() << endl;
+				//cout << "current thing is " << currentThing << endl;
+				//cout << "Syntax error on" << currentThing << endl;
+				cout << "\n\n in terminal syntax error \n\n";
+				cin.get();
+			}
+		}
+	}
+
+
 
 
 
@@ -152,4 +260,64 @@ void displayLine(int parseAction, std::vector<string> remInput, std::stack<strin
 	cout << setw(70) << right;
 	displayStack(myStack);
 	cout << endl;
+}
+
+std::vector<string> getRealProductions(string rhs)
+{
+	stringstream ss (rhs);
+	std::vector<string>rhsBrokenUp;
+
+	cout << "rhs is " << rhs << endl;
+
+	string temp;
+
+	while(ss >> temp)
+	{
+		if(temp[0] == '<' && temp[temp.size()-1] != '>')
+		{
+			string tempThing;
+			ss >> tempThing;
+			temp += " ";
+			temp += tempThing;
+		}
+		if((temp.compare(0, 4, "read") == 0))
+		{
+			temp = "read";
+			string userT;
+			getline(ss, userT, ')');
+			ss.get();
+		}
+		else if (temp.compare(0, 5, "write") == 0)
+		{
+			temp = "write";
+			string userT;
+			getline(ss, userT, ')');
+			ss.get();
+		}
+		else if(temp[0] == '(')
+		{
+			cout << "temp is " << temp << endl;
+			/*
+			temp = "(";
+			rhsBrokenUp.push_back("(");
+			string userT;
+			getline(ss, userT, ')');
+			int count = 1;
+			while(temp[count] != ')')
+			{
+				userT += temp[count];
+				count++;
+			}
+			cout << "userT is " << userT << endl;
+			rhsBrokenUp.push_back(userT);
+
+			//rhsBrokenUp.push_back(temp);
+			temp = ")";
+			 */
+
+		}
+		rhsBrokenUp.push_back(temp);
+	}
+
+	return rhsBrokenUp;
 }
