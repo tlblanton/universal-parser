@@ -49,38 +49,32 @@ int LLDriver()
 			myStack.pop();
 			myStack.push("<expression>");
 		}
-		cout << "trying to find " << myStack.top() << " in  nonTerminalsVect" << endl;
+		//cout << "trying to find " << myStack.top() << " in  nonTerminalsVect" << endl;
 		if (existsIn(myStack.top(), g.nonTerminalsVect))
 		{
-			cout << "currentThing is " << currentThing << endl;
+			//cout << "currentThing is " << currentThing << endl;
 			if (T(myStack.top(), currentThing) != -1)
 			{
 
 				myState = T(myStack.top(), currentThing);
-				cout << "\n\npredict # is " << myState << endl << endl;
+				cout << "predict # is " << myState << endl;
 
-				//int index = findIndex(g.LHS, myStack.top());
 				int index = myState - 1;
-				cout << "index is " << index << endl;
-
-
 
 
 				myStack.pop();
 				std::vector<string> RHSBroken;
 				RHSBroken = getRealProductions(g.RHS[index]);
-				cout <<"RHS[index] is " << g.RHS[index] << endl;
+				//cout <<"RHS[index] is " << g.RHS[index] << endl;
 				for(int i = (int)RHSBroken.size()-1; i >= 0; --i)
 				{
-
-					cout << "RHSBroken[i] is " << RHSBroken[i] << endl;
 					myStack.push(RHSBroken[i]);
 				}
 
 			}
 			else
 			{
-				cout << "syntax error on nonTerminal \n Trying to find " << currentThing << " in " << myStack.top() << endl;
+				//cout << "syntax error on nonTerminal \n Trying to find " << currentThing << " in " << myStack.top() << endl;
 
 
 				scannerDriver(tokenCode, tokenText);
@@ -89,6 +83,12 @@ int LLDriver()
 		}
 		else		//meaning X is in terminals
 		{
+			if(myStack.top() == ";" || myStack.top() == "λ")
+			{
+				myStack.pop();
+
+				continue;
+			}
 			if(myStack.top() == "(<expression>)")
 			{
 				if(myState == 18)
@@ -117,15 +117,13 @@ int LLDriver()
 			}
 
 
-			cout << "in terminals: mystacktop is '" << myStack.top() << "' and current thing is '" << currentThing << "'" << endl;
+			//cout << "in terminals: mystacktop is '" << myStack.top() << "' and current thing is '" << currentThing << "'" << endl;
 			if(myStack.top() == currentThing || (currentThing == ";" && myStack.top() == "λ"))
 			{
 				myStack.pop();
-				cout << "HERE\n";
 				scannerDriver(tokenCode, tokenText);
 				currentThing = tokenText;
-				cout << "currentthing is " << currentThing << endl;
-				cin.get();
+				//elimFirst(remainingInput);
 
 			}
 			else
@@ -134,7 +132,6 @@ int LLDriver()
 				//cout << "current thing is " << currentThing << endl;
 				//cout << "Syntax error on" << currentThing << endl;
 				cout << "\n\n in terminal syntax error \n\n";
-				cin.get();
 			}
 		}
 	}
@@ -266,8 +263,6 @@ std::vector<string> getRealProductions(string rhs)
 {
 	stringstream ss (rhs);
 	std::vector<string>rhsBrokenUp;
-
-	cout << "rhs is " << rhs << endl;
 
 	string temp;
 

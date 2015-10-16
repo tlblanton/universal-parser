@@ -19,10 +19,15 @@ void scannerDriver(int &tokenCode, string &tokenText)
     bool end = false;
     while(!end)
     {
+
         if(currentChar() == EOF)
         {
             tokenText = "EofSym";
-            end = true;
+            return;
+        }
+        else if(currentChar() == '$')
+        {
+            tokenText = '$';
             return;
         }
         string actionResult = action(state, currentChar());
@@ -43,7 +48,6 @@ void scannerDriver(int &tokenCode, string &tokenText)
         }
         else if (actionResult == "HaltAppend")
         {
-
             lookupCode(state, currentChar(), tokenCode);
             tokenText += currentChar();
             checkExceptions(tokenCode, tokenText);
