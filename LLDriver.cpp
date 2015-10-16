@@ -49,10 +49,8 @@ int LLDriver()
 			myStack.pop();
 			myStack.push("<expression>");
 		}
-		//cout << "trying to find " << myStack.top() << " in  nonTerminalsVect" << endl;
 		if (existsIn(myStack.top(), g.nonTerminalsVect))
 		{
-			//cout << "currentThing is " << currentThing << endl;
 			if (T(myStack.top(), currentThing) != -1)
 			{
 
@@ -65,7 +63,6 @@ int LLDriver()
 				myStack.pop();
 				std::vector<string> RHSBroken;
 				RHSBroken = getRealProductions(g.RHS[index]);
-				//cout <<"RHS[index] is " << g.RHS[index] << endl;
 				for(int i = (int)RHSBroken.size()-1; i >= 0; --i)
 				{
 					myStack.push(RHSBroken[i]);
@@ -74,7 +71,7 @@ int LLDriver()
 			}
 			else
 			{
-				//cout << "syntax error on nonTerminal \n Trying to find " << currentThing << " in " << myStack.top() << endl;
+				cout << "syntax error on nonTerminal \n Trying to find " << currentThing << " in " << myStack.top() << endl;
 
 
 				scannerDriver(tokenCode, tokenText);
@@ -86,7 +83,7 @@ int LLDriver()
 			if(myStack.top() == ";" || myStack.top() == "λ")
 			{
 				myStack.pop();
-
+				cout << "match\n";
 				continue;
 			}
 			if(myStack.top() == "(<expression>)")
@@ -117,14 +114,16 @@ int LLDriver()
 			}
 
 
-			//cout << "in terminals: mystacktop is '" << myStack.top() << "' and current thing is '" << currentThing << "'" << endl;
 			if(myStack.top() == currentThing || (currentThing == ";" && myStack.top() == "λ"))
 			{
 				myStack.pop();
 				scannerDriver(tokenCode, tokenText);
 				currentThing = tokenText;
-				//elimFirst(remainingInput);
-
+				cout << "match\n";
+				elimFirst(remainingInput);
+				cout << "\t\t\t";
+				display(remainingInput);
+				cout << endl;
 			}
 			else
 			{
@@ -135,86 +134,6 @@ int LLDriver()
 			}
 		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-	string currentThing;
-	//currentThing = remainingInput[0]; //need to implement scanner to read program. use other one?
-
-
-	if(currentThing == "-1")
-	{
-		return -1;
-	}
-	myStack.push(g.startSymbol);
-
-	while(myStack.size() != 0)
-	{
-
-		scannerDriver(tokenCode, tokenText); //these two lines get the next token from scannerDriver
-		currentThing = tokenText;
-
-		cout << "current thing is " << currentThing << endl;
-
-		if(existsInVect(myStack.top(), g.nonTerminalsVect))
-		{
-				if(T(myStack.top(), currentThing) != -1) //T(X, a) doesn't know what to do with the tokens that currentThing is getting from scanner()
-				{
-					displayLine(T(myStack.top(), currentThing), remainingInput, myStack);
-					int index = findIndex(g.LHS, myStack.top());
-					std::vector<string> NTProductions;
-					NTProductions = getProductions(g.RHS[index]); //this splits up the RHS (y1, y2, ..., yn)
-					myStack.pop(); //to get the X out and then replace it with y1, y2...yn below
-					for(int i = NTProductions.size()-1; i > -1; --i)	//this puts the split up y's into the stack backwards
-					{
-						myStack.push(NTProductions[i]);
-						displayLine(-1, remainingInput, myStack);
-						elimFirst(remainingInput);
-					}
-				}
-				else
-				{
-					cout << "syntax error on " << currentThing << endl;
-
-
-
-					currentThing = scanner(); //moving to next thing to infinite loop is not obtained while repeatedly getting syntax error
-					cout << "current thing is " << currentThing << endl;
-					//need to advance currentThing I think. Need to do something.
-					return -1;
-				}
-		}
-		else //means X is in terminals
-		{
-			if(myStack.top() == currentThing)
-			{
-				myStack.pop();
-				currentThing = scanner(); //getting next token form user program
-				cout << "currentThing is " << currentThing << endl;
-				elimFirst(remainingInput);
-			}
-			else
-			{
-				cout << "syntax error on " << currentThing << endl;
-				//need way to advance here, just like above
-			}
-		}
-	}
-
- */
 	return 0;
 }
 

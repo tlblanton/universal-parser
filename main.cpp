@@ -54,11 +54,6 @@ int main()
     g.fill(*globsymbolVect, *globnonTerminalsVect, *globterminalsVect, *globLHS, *globRHS);
     myVocab.init(g.terminalsVect, g.nonTerminalsVect);
     myVocab.vocabulary.push_back("λ");
-    
-    for(int i = 0;i < g.nonTerminalsVect.size(); ++i)
-    {
-        cout << i << "  " <<g.nonTerminalsVect[i] <<endl;
-    }
 
     
     delete globsymbolVect;
