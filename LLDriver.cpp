@@ -55,11 +55,15 @@ int LLDriver()
 			{
 
 				myState = T(myStack.top(), currentThing);
-				cout << "predict # is " << myState << endl;
-
+				cout << setw(30) << left;
+				cout << myState;//"predict # is " << myState << endl;
+				cout << setw(80);
+				display(remainingInput);
+				displayStack(myStack);
+				cout << endl;
 				int index = myState - 1;
 
-
+				//cout << "popping " << myStack.top() << endl;
 				myStack.pop();
 				std::vector<string> RHSBroken;
 				RHSBroken = getRealProductions(g.RHS[index]);
@@ -80,10 +84,9 @@ int LLDriver()
 		}
 		else		//meaning X is in terminals
 		{
-			if(myStack.top() == ";" || myStack.top() == "λ")
+			if((myStack.top() == ";" || myStack.top() == "λ") && (myStack.top() != currentThing))
 			{
 				myStack.pop();
-				cout << "match\n";
 				continue;
 			}
 			if(myStack.top() == "(<expression>)")
@@ -119,11 +122,12 @@ int LLDriver()
 				myStack.pop();
 				scannerDriver(tokenCode, tokenText);
 				currentThing = tokenText;
-				cout << "match\n";
-				elimFirst(remainingInput);
-				cout << "\t\t\t";
+				cout <<setw(30) << left<< "match";
+				cout << setw(80);
 				display(remainingInput);
+				displayStack(myStack);
 				cout << endl;
+				elimFirst(remainingInput);
 			}
 			else
 			{
@@ -144,23 +148,23 @@ void elimFirst(std::vector<string>& vect)
 
 void display(std::vector<string>& vect)
 {
+	string concat;
 	for(int i = 0; i < vect.size(); ++i)
 	{
-		cout << vect[i];
-		if(vect[i] == ";")
-		{
-			cout << " ";
-		}
+		concat += vect[i];
 	}
+	cout << concat;
 }
 
 void displayStack(std::stack<string> myStack)
 {
+	string concat;
 	for(int i = 0; i < myStack.size(); ++i)
 	{
-		cout << myStack.top();
+		concat += myStack.top();
 		myStack.pop();
 	}
+	cout << concat;
 }
 
 void displayLine(int parseAction, std::vector<string> remInput, std::stack<string> myStack) {
