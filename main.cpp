@@ -34,6 +34,7 @@ std::stack<string> myStack;
 //----------------------------------------| MAIN |------------------------------------------//
 int main()
 {
+    cout << endl;
     std::vector<string>* globsymbolVect;
     std::vector<string>* globnonTerminalsVect;
     std::vector<string>* globterminalsVect;
@@ -128,7 +129,10 @@ int main()
 
     tableGenerator();
 
-    assert(LLDriver() != -1); //this is calling LLDriver() and is currently ending on a syntax error
+    if(LLDriver() == -1) //this is calling LLDriver() and is currently ending on a syntax error
+    {
+        cerr << "Program Terminated\n";
+    }
 
 
     return 0;

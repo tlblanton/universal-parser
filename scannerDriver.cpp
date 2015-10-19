@@ -201,6 +201,7 @@ void checkExceptions(int &tokenCode, string &tokenText)
     }
     else if(tokenCode == 11)
     {
+        //cout << "token Text is " << tokenText << endl;
         tokenText = "Id";
     }
     else if(tokenCode == 23)

@@ -27,11 +27,11 @@ int LLDriver()
 
 	int myState = 0;
 
-	cout << setw(30) << left <<"PARSE ACTION" << setw(80) << "REMAINING INPUT" << "PARSE STACK" << endl;
+	cout << setw(20) << left <<"PARSE ACTION" << setw(80) << "REMAINING INPUT" << "PARSE STACK" << endl;
 	std::vector<string> remainingInput;
 	do
 	{
-		remainingInput.push_back(scanner()); //this doesn't do anything yet so on 26, there is nothing at zero (segfault 11)***********++++++++++*****
+		remainingInput.push_back(scanner());
 	}while(remainingInput[remainingInput.size()-1] != "$");
 
 
@@ -53,17 +53,19 @@ int LLDriver()
 		{
 			if (T(myStack.top(), currentThing) != -1)
 			{
-
 				myState = T(myStack.top(), currentThing);
-				cout << setw(30) << left;
-				cout << myState;//"predict # is " << myState << endl;
+				stringstream ss;
+				ss << myState;
+				string stateOut = "Predict " + ss.str();
+				cout << setw(20) << left;
+				cout << stateOut;//"predict # is " << myState << endl;
 				cout << setw(80);
 				display(remainingInput);
 				displayStack(myStack);
 				cout << endl;
 				int index = myState - 1;
 
-				//cout << "popping " << myStack.top() << endl;
+
 				myStack.pop();
 				std::vector<string> RHSBroken;
 				RHSBroken = getRealProductions(g.RHS[index]);
@@ -71,15 +73,25 @@ int LLDriver()
 				{
 					myStack.push(RHSBroken[i]);
 				}
-
 			}
 			else
 			{
-				cout << "syntax error on nonTerminal \n Trying to find " << currentThing << " in " << myStack.top() << endl;
+				if(currentThing == "(")
+				{
+					myStack.push("(");
+					//scannerDriver(tokenCode, tokenText);
+					//currentThing = tokenText;
+					continue;
+				}
+				else
+				{
+					cout << "syntax error on nonTerminal" << endl;
+					return -1;
+				}
 
 
-				scannerDriver(tokenCode, tokenText);
-				currentThing = tokenText;
+				//scannerDriver(tokenCode, tokenText);
+				//currentThing = tokenText;
 			}
 		}
 		else		//meaning X is in terminals
@@ -115,26 +127,32 @@ int LLDriver()
 					myStack.push("IntLiteral");
 				}
 			}
+			else if(myStack.top() == "READ" || myStack.top() == "read" || myStack.top() == "Read")
+			{
+				cout << "in here\n";
+				//myStack.pop();
+				//myStack.push("read");
+
+			}
 
 
 			if(myStack.top() == currentThing || (currentThing == ";" && myStack.top() == "λ"))
 			{
-				myStack.pop();
 				scannerDriver(tokenCode, tokenText);
 				currentThing = tokenText;
-				cout <<setw(30) << left<< "match";
+				cout <<setw(20) << left<< "match";
 				cout << setw(80);
 				display(remainingInput);
 				displayStack(myStack);
 				cout << endl;
 				elimFirst(remainingInput);
+				myStack.pop();
 			}
 			else
 			{
-				//cout << "mystack.top() is " << myStack.top() << endl;
-				//cout << "current thing is " << currentThing << endl;
-				//cout << "Syntax error on" << currentThing << endl;
+				cout << "currentThing is " << currentThing << " mystack top is " << myStack.top() << endl;
 				cout << "\n\n in terminal syntax error \n\n";
+				return -1;
 			}
 		}
 	}
@@ -156,15 +174,56 @@ void display(std::vector<string>& vect)
 	cout << concat;
 }
 
-void displayStack(std::stack<string> myStack)
+void displayStack(std::stack<string> thisStack)
 {
 	string concat;
-	for(int i = 0; i < myStack.size(); ++i)
+	for(int i = 0; i <= thisStack.size(); ++i)
 	{
-		concat += myStack.top();
-		myStack.pop();
+		string temp = thisStack.top();
+		if(temp == "+")
+		{
+			temp = "PlusOp";
+		}
+		else if(temp == "-")
+		{
+			temp = "MinusOp";
+		}
+		else if(temp == "Id" || temp == ";")
+		{
+			temp = temp;
+		}
+		else if(temp == ":=")
+		{
+			temp = "AssignOp";
+		}
+		else if(temp == "end")
+		{
+			temp = "EndSym";
+		}
+		else if(temp == "begin")
+		{
+			temp = "BeginSym";
+		}
+			else if(temp == "(")
+		{
+			temp = "LParen";
+		}
+			else if(temp == "read")
+		{
+			temp = "ReadSym";
+		}
+		else
+		{
+			if(temp[0] != '<' && temp != "$" && temp != "read")
+			{
+				temp = "IntLiteral";
+			}
+		}
+		concat += temp;
+		thisStack.pop();
 	}
 	cout << concat;
+
 }
 
 void displayLine(int parseAction, std::vector<string> remInput, std::stack<string> myStack) {
