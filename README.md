@@ -1,2 +1,3 @@
 # universal_parser
 This is a piece of what will eventually be a Universal Compiler. So far, it analyzes a micro-grammar from the provided file "microProductions.txt", generates first and follow sets for that grammar, and creates a table that will help with the creation of my parser and my parser driver. The table tells which production to go to next based upon the current symbol and a single look-ahead token. Because the grammar being analyzed is LL(1), this single look-ahead token is enough to keep the parser going.
+So far, it handles things well unless there is a read, write or (expression) symbol, which has something to do with how i scanned in those portions from the scanner. This is a work in progress.
